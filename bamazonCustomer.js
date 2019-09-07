@@ -16,16 +16,19 @@ connection.connect(function(err) {
 });
 
 function displayProducts() {
-  var query = "SELECT * FROM products";
-  connection.query(query, function(err, res) {
-    if (err) throw err;
-    var displayTable = new Table({
-      head: ["Item ID", "Product Name", "Catergory", "Price", "Quantity"],
-      colWidths: [10, 25, 25, 10, 25]
-    });
+  var displayTable = new Table({
+    head: ["Item ID", "Product Name", "Catergory", "Price", "Quantity"],
+    colWidths: [10, 20, 20, 10, 10]
+  });
+
+  connection.query("SELECT * FROM products", function(err, res) {
+    if (err) {
+      console.log(err);
+    }
+
     for (var i = 0; i < res.length; i++) {
       displayTable.push([
-        res[i].item_id,
+        res[i].id,
         res[i].product_name,
         res[i].department_name,
         res[i].price,
@@ -34,7 +37,7 @@ function displayProducts() {
     }
     //console.log(displayTable);
     //displayTable.toString();
-    console.log(displayTable);
+    console.log(displayTable.toString());
     purchasePrompt();
   });
 }
